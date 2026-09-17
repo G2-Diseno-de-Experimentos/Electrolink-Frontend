@@ -6,7 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { LanguageSwitcherComponent } from './public/generic/components/language-switcher/language-switcher.component';
+import { LanguageSwitcherComponent } from './shared/presentation/components/language-switcher/language-switcher.component';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({

@@ -1,0 +1,79 @@
+<div class="welcome-container">
+  <!-- Hero Banner Principal -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <span class="badge">Plataforma Inteligente</span>
+      <h1 class="hero-title">
+        Bienvenido a <span class="highlight">ElectroLink</span>
+      </h1>
+      <p class="hero-subtitle">
+        Tu solución integral para gestionar, monitorear y contratar servicios eléctricos con total seguridad y confianza.
+      </p>
+
+      <!-- Llamadas a la acción (CTAs) -->
+      <div class="hero-actions">
+        <button mat-flat-button class="btn-primary" (click)="goToSignUp()">
+          Crear una cuenta
+        </button>
+        <button mat-stroked-button class="btn-secondary" (click)="goToSignIn()">
+          Iniciar sesión
+        </button>
+      </div>
+    </div>
+
+    <div class="hero-image-wrapper">
+      <img
+        src="assets/img/electrolink-welcome.png"
+        alt="Bienvenida ElectroLink"
+        class="hero-image" />
+    </div>
+  </section>
+
+  <!-- Sección de Servicios y Características (Grid 2 Columnas) -->
+  <section class="features-section">
+    <div class="section-header">
+      <h2>Todo lo que necesitas en un solo lugar</h2>
+      <p>Diseñado para propietarios de viviendas y técnicos capacitados</p>
+    </div>
+
+    <div class="features-grid">
+      <!-- Tarjeta 1: Instalación eléctrica -->
+      <div class="feature-card">
+        <div class="card-image-container">
+          <img
+            src="assets/img/installation-service.png"
+            alt="Servicios de Instalación"
+            class="card-image" />
+        </div>
+        <div class="card-body">
+          <div class="card-icon-badge">
+            <mat-icon>build_circle</mat-icon>
+          </div>
+          <h3>Servicios de Instalación</h3>
+          <p>
+            Contrata técnicos verificados para instalaciones y mantenimientos eléctricos seguros en tu hogar o empresa.
+          </p>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2: Componentes eléctricos -->
+      <div class="feature-card">
+        <div class="card-image-container">
+          <img
+            src="assets/img/electric-components.png"
+            alt="Componentes de Calidad"
+            class="card-image" />
+        </div>
+        <div class="card-body">
+          <div class="card-icon-badge">
+            <mat-icon>inventory</mat-icon>
+          </div>
+          <h3>Componentes de Calidad</h3>
+          <p>
+            Gestión completa de inventario, consulta de componentes e insumos eléctricos de forma transparente y profesional.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

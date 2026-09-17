@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import { AuthenticationService } from '../../../services/authentication.service';
-import { BaseFormComponent } from '../../../../shared/components/base-form.component';
+import { BaseFormComponent } from '../../../../shared/presentation/components/base-form.component';
 import { SignInRequest } from '../../../domain/model/sign-in.request';
 import { SignInResponse } from '../../../domain/model/sign-in.response';
 import { MatError, MatFormField } from '@angular/material/form-field';

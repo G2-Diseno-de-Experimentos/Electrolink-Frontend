@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
-import { BaseFormComponent } from '../../../../shared/components/base-form.component';
+import { BaseFormComponent } from '../../../../shared/presentation/components/base-form.component';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { ProfileService } from '../../../services/profile.service';
 import { SignUpRequest } from '../../../domain/model/sign-up.request';
