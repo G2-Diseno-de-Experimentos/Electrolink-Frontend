@@ -7,8 +7,8 @@ export const environment = {
     clientsEndpoint: '/clients',
     techniciansEndpoint: '/technicians',
     propertiesEndpoint: '/properties',
-      ratingsBasePath: '/ratings',
-  serviceOperationsBasePath: '/service-operations',
-  reportsBasePath: '/reports',
-  photoBasePath: '/photos'
+    ratingsBasePath: '/ratings',
+    serviceOperationsBasePath: '/service-operations',
+    reportsBasePath: '/reports',
+    photoBasePath: '/photos'
 };

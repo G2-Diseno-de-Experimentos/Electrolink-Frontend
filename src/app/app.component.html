@@ -1,21 +1,40 @@
-<mat-toolbar>
-  <span>{{ title }}</span>
+<mat-toolbar class="main-navbar">
+  <div class="brand-title">
+    <mat-icon class="brand-icon">space_dashboard</mat-icon>
+    <span>{{ title }}</span>
+  </div>
+
+  <nav class="nav-links">
+    <a
+      *ngFor="let item of activeItems"
+      [routerLink]="item.to"
+      routerLinkActive="active-link"
+      mat-button
+      class="nav-item">
+      {{ item.label | translate }}
+    </a>
+  </nav>
+
   <span class="spacer"></span>
-  <button mat-button (click)="goToSignIn()">Sign In</button>
-  <button mat-button (click)="goToSignUp()">Sign Up</button>
-  <button mat-button (click)="changeMenu()">
-    {{ changeMenuLabel | translate }}
-  </button>
+
+  <div class="nav-actions">
+    <!-- Language Switcher -->
+    <app-language-switcher/>
+
+    <div class="auth-group">
+      <!-- Sign In Button -->
+      <button mat-button class="btn-auth btn-outline" (click)="goToSignIn()">
+        Sign In
+      </button>
+
+      <!-- Sign Up Button -->
+      <button mat-flat-button class="btn-auth btn-filled" (click)="goToSignUp()">
+        Sign Up
+      </button>
+    </div>
+  </div>
 </mat-toolbar>
 
-<nav>
-  <a
-    *ngFor="let item of activeItems"
-    [routerLink]="item.to"
-    routerLinkActive="active"
-    mat-button>
-    {{ item.label | translate }}
-  </a>
-</nav>
-
-<router-outlet></router-outlet>
+<main class="main-content">
+  <router-outlet></router-outlet>
+</main>
