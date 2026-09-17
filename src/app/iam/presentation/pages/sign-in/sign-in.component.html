@@ -1,0 +1,55 @@
+<div class="login-container">
+  <div class="form-section">
+    <div class="header-text">
+      <h2>Conecta con seguridad, gestiona con confianza.</h2>
+      <p class="signup-text">
+        No tienes una cuenta? <a routerLink="/register" class="link-blue">Regístrate</a>
+      </p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
+      <div class="field-group">
+        <label class="field-label">Usuario</label>
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-icon matPrefix>person_outline</mat-icon>
+          <input
+            matInput
+            placeholder="correoempresa@proveedorsac.com"
+            formControlName="username">
+          <mat-error *ngIf="isInvalidControl(form, 'username')">
+            {{ errorMessagesForControl(form, 'username') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Contraseña</label>
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-icon matPrefix>lock_outline</mat-icon>
+          <input
+            matInput
+            type="password"
+            placeholder="****************"
+            formControlName="password">
+          <button mat-icon-button matSuffix type="button" aria-label="Toggle password visibility">
+            <mat-icon>visibility_off</mat-icon>
+          </button>
+          <mat-error *ngIf="isInvalidControl(form, 'password')">
+            {{ errorMessagesForControl(form, 'password') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="actions">
+        <button mat-flat-button class="btn-login" type="submit">
+          Login
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="decor-section">
+    <div class="curved-shape"></div>
+    <div class="blue-bg"></div>
+  </div>
+</div>

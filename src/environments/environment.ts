@@ -1,14 +1,20 @@
 export const environment = {
-    production: true,
-    serverBasePath: 'http://localhost:8091/api/v1',
-    requestsEndpoint: '/requests',
-    schedulesEndpoint: '/schedules',
-    servicesEndpoint: '/services',
-    clientsEndpoint: '/clients',
-    techniciansEndpoint: '/technicians',
-    propertiesEndpoint: '/properties',
-    ratingsBasePath: '/ratings',
-    serviceOperationsBasePath: '/service-operations',
-    reportsBasePath: '/reports',
-    photoBasePath: '/photos'
+  production: true,
+  serverBasePath: 'http://localhost:8091/api/v1',
+
+  authenticationEndpoint: '/authentication',
+  profilesEndpoint: '/profiles',
+  signInEndpoint: '/sign-in',
+  signUpEndpoint: '/sign-up',
+
+  requestsEndpoint: '/requests',
+  schedulesEndpoint: '/schedules',
+  servicesEndpoint: '/services',
+  clientsEndpoint: '/clients',
+  techniciansEndpoint: '/technicians',
+  propertiesEndpoint: '/properties',
+  ratingsBasePath: '/ratings',
+  serviceOperationsBasePath: '/service-operations',
+  reportsBasePath: '/reports',
+  photoBasePath: '/photos'
 };

@@ -1,11 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ReportService } from '../../monitoring/services/report.service';
-import { ReportType } from '../../monitoring/model/report-type';
+import { ReportService } from '../services/report.service';
+import { ReportType } from '../model/report-type';
 import {MatCard, MatCardActions, MatCardContent, MatCardTitle} from '@angular/material/card';
 import {NgForOf} from '@angular/common';
 import {MatFormField, MatSelect} from '@angular/material/select';
 import {MatLabel} from '@angular/material/input';
-import {MatOption} from '@angular/material/core';
 import {FormsModule} from '@angular/forms';
 import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 
@@ -14,15 +13,12 @@ import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
   templateUrl: './report-form.component.html',
   imports: [
     MatCard,
-    MatOption,
     MatLabel,
     NgForOf,
-    MatSelect,
     MatCardTitle,
     MatCardContent,
     MatFormField,
     FormsModule,
-    MatCardActions,
     MatRadioGroup,
     MatRadioButton
   ],

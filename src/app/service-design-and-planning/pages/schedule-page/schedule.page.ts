@@ -12,8 +12,7 @@ import { ScheduleViewComponent } from '../../component/schedule-view/schedule-vi
   imports: [
     CommonModule,
     ScheduleActionsComponent,
-    CreateScheduleComponent,
-    ScheduleViewComponent
+    CreateScheduleComponent
   ],
   templateUrl: './schedule-page.html',
   styleUrls: ['./schedule-page.css']
