@@ -1,72 +1,115 @@
-<div class="sign-up-content">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Sign Up</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <!-- Username & Password -->
-        <mat-form-field appearance="fill">
-          <input matInput placeholder="Username" formControlName="username">
-          <mat-error *ngIf="isInvalidControl(form,'username')">
-            {{ errorMessagesForControl(form,'username') }}
-          </mat-error>
-        </mat-form-field>
+<div class="signup-container">
+  <div class="form-section">
+    <div class="header-text">
+      <h2>Crea tu cuenta y empieza a gestionar.</h2>
+      <p class="login-text">
+        ¿Ya tienes una cuenta? <a routerLink="/login" class="link-blue">Inicia Sesión</a>
+      </p>
+    </div>
 
-        <mat-form-field appearance="fill">
-          <input matInput type="password" placeholder="Password" formControlName="password">
-          <mat-error *ngIf="isInvalidControl(form,'password')">
-            {{ errorMessagesForControl(form,'password') }}
-          </mat-error>
-        </mat-form-field>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="signup-form">
 
-        <!-- Profile Info -->
-        <mat-form-field appearance="fill">
-          <input matInput placeholder="First Name" formControlName="firstName">
-          <mat-error *ngIf="isInvalidControl(form,'firstName')">
-            {{ errorMessagesForControl(form,'firstName') }}
-          </mat-error>
-        </mat-form-field>
+      <div class="form-grid">
+        <div class="field-group">
+          <label class="field-label">Usuario</label>
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-icon matPrefix>person_outline</mat-icon>
+            <input matInput placeholder="Nombre de usuario" formControlName="username">
+            <mat-error *ngIf="isInvalidControl(form, 'username')">
+              {{ errorMessagesForControl(form, 'username') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="fill">
-          <input matInput placeholder="Last Name" formControlName="lastName">
-          <mat-error *ngIf="isInvalidControl(form,'lastName')">
-            {{ errorMessagesForControl(form,'lastName') }}
-          </mat-error>
-        </mat-form-field>
+        <div class="field-group">
+          <label class="field-label">Contraseña</label>
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-icon matPrefix>lock_outline</mat-icon>
+            <input matInput type="password" placeholder="****************" formControlName="password">
+            <mat-error *ngIf="isInvalidControl(form, 'password')">
+              {{ errorMessagesForControl(form, 'password') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="fill">
-          <input matInput type="email" placeholder="Email" formControlName="email">
-          <mat-error *ngIf="isInvalidControl(form,'email')">
-            {{ errorMessagesForControl(form,'email') }}
-          </mat-error>
-        </mat-form-field>
+        <div class="field-group">
+          <label class="field-label">Nombre</label>
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-icon matPrefix>badge</mat-icon>
+            <input matInput placeholder="Tu nombre" formControlName="firstName">
+            <mat-error *ngIf="isInvalidControl(form, 'firstName')">
+              {{ errorMessagesForControl(form, 'firstName') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-        <mat-form-field appearance="fill">
-          <input matInput placeholder="Street" formControlName="street">
-          <mat-error *ngIf="isInvalidControl(form,'street')">
-            {{ errorMessagesForControl(form,'street') }}
-          </mat-error>
-        </mat-form-field>
+        <div class="field-group">
+          <label class="field-label">Apellido</label>
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-icon matPrefix>badge</mat-icon>
+            <input matInput placeholder="Tu apellido" formControlName="lastName">
+            <mat-error *ngIf="isInvalidControl(form, 'lastName')">
+              {{ errorMessagesForControl(form, 'lastName') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-        <!-- Role Selector -->
-        <mat-form-field appearance="fill">
-          <mat-label>Role</mat-label>
-          <mat-select formControlName="role">
-            <mat-option *ngFor="let r of roles" [value]="r">{{ r }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div class="field-group full-width">
+          <label class="field-label">Correo electrónico</label>
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-icon matPrefix>email</mat-icon>
+            <input matInput type="email" placeholder="correoempresa@proveedorsac.com" formControlName="email">
+            <mat-error *ngIf="isInvalidControl(form, 'email')">
+              {{ errorMessagesForControl(form, 'email') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-        <!-- Dynamic Field -->
-        <mat-form-field appearance="fill" *ngIf="isTechnician() || isHomeowner()">
-          <input matInput
-                 [placeholder]="isTechnician() ? 'Certification Info' : 'Additional Info'"
-                 formControlName="additionalInfoOrCertification">
-        </mat-form-field>
+        <div class="field-group full-width">
+          <label class="field-label">Dirección</label>
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-icon matPrefix>home</mat-icon>
+            <input matInput placeholder="Av. Principal 123" formControlName="street">
+            <mat-error *ngIf="isInvalidControl(form, 'street')">
+              {{ errorMessagesForControl(form, 'street') }}
+            </mat-error>
+          </mat-form-field>
+        </div>
 
-        <!-- Submit -->
-        <button mat-raised-button color="primary" type="submit">Sign Up</button>
-      </form>
-    </mat-card-content>
-  </mat-card>
+        <div class="field-group full-width">
+          <label class="field-label">Rol</label>
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-icon matPrefix>work_outline</mat-icon>
+            <mat-select formControlName="role" placeholder="Selecciona un rol">
+              <mat-option *ngFor="let r of roles" [value]="r">{{ r }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="field-group full-width" *ngIf="isTechnician() || isHomeowner()">
+          <label class="field-label">
+            {{ isTechnician() ? 'Información de Certificación' : 'Información Adicional' }}
+          </label>
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-icon matPrefix>info</mat-icon>
+            <input
+              matInput
+              [placeholder]="isTechnician() ? 'Certificación o Especialidad' : 'Detalles de propiedad o notas'"
+              formControlName="additionalInfoOrCertification">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button mat-flat-button class="btn-signup" type="submit">
+          Registrarse
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="decor-section">
+    <div class="curved-shape"></div>
+    <div class="blue-bg"></div>
+  </div>
 </div>

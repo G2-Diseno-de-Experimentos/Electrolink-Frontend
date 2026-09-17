@@ -1,46 +1,35 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { BaseFormComponent } from '../../../shared/components/base-form.component';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ProfileService } from '../../services/profile.service';
 import { SignUpRequest } from '../../model/sign-up.request';
 import { ProfileRequest } from '../../model/profile.request';
-import {
-  MatCard,
-  MatCardContent,
-  MatCardHeader,
-  MatCardTitle
-} from '@angular/material/card';
-import {
-  MatFormField,
-  MatLabel
-} from '@angular/material/form-field';
+import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { MatButton } from '@angular/material/button';
 import { NgIf, NgFor } from '@angular/common';
 import { MatError } from '@angular/material/form-field';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatCard,
-    MatCardHeader,
-    MatCardContent,
     MatFormField,
     MatInput,
     MatButton,
-    MatCardTitle,
     MatError,
-    MatLabel,
     MatSelect,
     MatOption,
     NgIf,
-    NgFor
+    NgFor,
+    MatIcon,
+    RouterLink
   ],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css'
