@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouterModule } from '@angular/router'; // Asegúrate de importar esto
+import { RouterModule } from '@angular/router';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,5 +35,13 @@ export class AppComponent {
 
   goToSignUp() {
     this.router.navigate(['/sign-up']);
+  }
+
+  changeMenuLabel: string = 'SIDEBAR.TOGGLE';
+
+  activeItems: Array<any> = [];
+
+  changeMenu(): void {
+    console.log('Cambiando menú...');
   }
 }

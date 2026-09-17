@@ -1,52 +1,127 @@
-/* Estilo para la barra de herramientas superior */
-.custom-toolbar {
-  background-color: #1976d2; /* Azul principal */
-  color: white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.toolbar-spacer {
-  flex: 1 1 auto; /* Empuja los elementos a los extremos */
-}
-
-/* Estilo para los botones de la barra de herramientas */
-.change-role-button, .icon-button {
-  background-color: #ffe082 !important; /* Amarillo claro */
-  color: #1976d2 !important;       /* Azul medio */
-  border: 1px solid #1976d2;
-  margin-left: 8px;
-}
-
-.icon-button mat-icon {
-  font-size: 20px;
-}
-
-/* Contenedor para los botones de navegación */
-.navigation-bar {
+.main-navbar {
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+  height: 64px;
+  padding: 0 2rem !important;
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: #ffe082; /* Fondo amarillo para la barra de botones */
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #f1f5f9;
 }
 
-/* Estilo para los botones de navegación (Inicio, Peticiones, etc.) */
-.nav-button {
-  background-color: white !important;
-  color: #1976d2 !important;
-  border: 1px solid #1976d2 !important;
-  font-weight: 500;
+.brand-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #0b3d75;
+  margin-right: 2rem;
 }
 
-/* Estilo para el enlace activo */
+.brand-icon {
+  color: #3b9cf2;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-item {
+  color: #64748b !important;
+  font-weight: 500 !important;
+  border-radius: 20px !important;
+  transition: all 0.2s ease-in-out !important;
+  text-transform: none !important;
+}
+
+.nav-item:hover {
+  background-color: #f1f5f9 !important;
+  color: #0b3d75 !important;
+}
+
 .active-link {
-  background-color: #1976d2 !important;
-  color: white !important;
+  background-color: #e8eff7 !important;
+  color: #0b3d75 !important;
+  font-weight: 600 !important;
 }
 
-/* Contenedor principal del contenido */
+.spacer {
+  flex: 1 1 auto;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-change-menu {
+  color: #64748b !important;
+  font-weight: 500 !important;
+  border-radius: 20px !important;
+}
+
+.btn-change-menu .btn-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  margin-right: 4px;
+}
+
+/* Auth Buttons */
+.auth-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-auth {
+  border-radius: 20px !important;
+  padding: 0 20px !important;
+  height: 38px !important;
+  font-weight: 500 !important;
+  font-size: 0.9rem !important;
+  text-transform: none !important;
+}
+
+.btn-outline {
+  color: #0b3d75 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+.btn-outline:hover {
+  background-color: #f8fafc !important;
+}
+
+.btn-filled {
+  background-color: #3b9cf2 !important;
+  color: #ffffff !important;
+}
+
+.btn-filled:hover {
+  background-color: #2583d9 !important;
+}
+
 .main-content {
-  padding: 2rem;
-  background-color: #f0f4f8; /* Un color de fondo suave */
-  min-height: calc(100vh - 128px); /* Ajusta la altura para ocupar el espacio restante */
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .main-navbar {
+    padding: 0 1rem !important;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .brand-title span {
+    display: none;
+  }
 }

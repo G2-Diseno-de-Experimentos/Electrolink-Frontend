@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 interface NavItem {
   label: string;
   to: string;
+  icon?: string;
 }
 
 @Component({
