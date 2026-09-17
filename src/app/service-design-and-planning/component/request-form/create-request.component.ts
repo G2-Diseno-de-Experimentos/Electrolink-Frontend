@@ -10,7 +10,7 @@ import { RequestService } from '../../service/request.service';
 import { RequestEntity } from '../../model/request.entity';
 import { firstValueFrom } from 'rxjs';
 import { AuthenticationService } from '../../../iam/services/authentication.service';
-import { PropertyService } from '../../../assets/services/property.service';
+import { PropertyService } from '../../../property/services/property.service';
 import { ServiceService } from '../../service/service.service';
 
 @Component({
@@ -36,13 +36,13 @@ export class CreateRequestComponent {
   private propertyService: PropertyService,
   private serviceService: ServiceService
   ) {}
-  
+
   request: RequestEntity = new RequestEntity();
   photo = { photoId: '', url: '' };
   message: string = '';
   properties: any[] = [];
   services: any[] = [];
-  
+
   ngOnInit(): void {
     const userId = this.authService.getSignedInUserId();
     this.request.clientId = userId.toString();

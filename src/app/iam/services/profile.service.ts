@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import { Observable } from "rxjs";
-import { ProfileRequest } from "../model/profile.request";
-import { ProfileResponse } from "../model/profile.response";
+import { ProfileRequest } from "../domain/model/profile.request";
+import { ProfileResponse } from "../domain/model/profile.response";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfileService {
 
-  private basePath: string = `${environment.serverBasePath}/profiles`;
+  private basePath: string = `${environment.serverBasePath}${environment.profilesEndpoint}`;
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
