@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
 // Páginas públicas
-import { SignInComponent } from './iam/pages/sign-in/sign-in.component';
-import { SignUpComponent } from './iam/pages/sign-up/sign-up.component';
+import { SignInComponent } from './iam/presentation/pages/sign-in/sign-in.component';
+import { SignUpComponent } from './iam/presentation/pages/sign-up/sign-up.component';
 
 // Dashboard general
 import { HomeownerDashboardComponent } from './dashboard/pages/homeowner-dashboard/homeowner-dashboard.component';

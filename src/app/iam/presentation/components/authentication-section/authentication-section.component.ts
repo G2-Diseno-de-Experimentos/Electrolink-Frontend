@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../services/authentication.service';
+import { AuthenticationService } from '../../../services/authentication.service';
 import { NgIf } from '@angular/common';
 import { MatButton } from '@angular/material/button';
 
