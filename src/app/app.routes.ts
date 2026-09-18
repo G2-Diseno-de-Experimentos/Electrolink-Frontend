@@ -6,12 +6,14 @@ import { SignUpComponent } from './iam/presentation/pages/sign-up/sign-up.compon
 
 // Dashboard general
 import { HomeownerDashboardComponent } from './shared/presentation/pages/homeowner-dashboard/homeowner-dashboard.component';
-import { WelcomeComponent } from './shared/presentation/pages/welcome-dashboard/welcome-dashboard.component'; // importa el nuevo componente
+import { WelcomeComponent } from './shared/presentation/pages/welcome-dashboard/welcome-dashboard.component';
 
 // Gestión de componentes e inventario
 import { TypeManagementPageComponent } from './shared/presentation/components/component-type-page/component-type-page.component';
 import { ComponentPageComponent } from './shared/presentation/components/component-page/component-page.component';
-import { TechnicianInventoryPageComponent } from './inventory/inventory-page/inventory-page.component';
+
+// CORRECCIÓN AQUÍ: Nombre exacto de la clase exportada en el archivo .ts
+import { InventoryPageComponent } from './inventory/inventory-page/inventory-page.component';
 
 // Gestión de propiedades
 import { PropertyManagementPageComponent } from './property/presentation/components/property-management-page/property-management-page.component';
@@ -23,31 +25,33 @@ import { ServicePage } from './service-design-and-planning/pages/service-page/se
 
 import { ServiceMonitoringPageComponent } from './monitoring/pages/service-monitoring-page.component';
 
-// Dashboard de proveedor (opcional, si se usa)
+// Dashboard de proveedor
 import { ProviderDashboardComponent } from './shared/presentation/pages/provider-dashboard/provider-dashboard.component';
 
 export const routes: Routes = [
-  // Redirección inicial al componente Welcome (Página de bienvenida)
   { path: '', component: WelcomeComponent },
 
   // Rutas para autenticación
   { path: 'sign-in', component: SignInComponent },
   { path: 'sign-up', component: SignUpComponent },
 
-  // Rutas de dashboard central (para Homeowner)
+  // Rutas de dashboard central
   { path: 'dashboard/homeowner', component: HomeownerDashboardComponent },
 
   // Rutas de funcionalidades técnicas
   { path: 'component-type', component: TypeManagementPageComponent },
   { path: 'component-management', component: ComponentPageComponent },
-  { path: 'technician-inventory', component: TechnicianInventoryPageComponent },
-  {path: 'requests', component: RequestPage},
-  { path: 'schedules', component: SchedulePage },
-  {path: 'services', component: ServicePage},
-  // Funcionalidades del propietario (Homeowner)
-  { path: 'property', component: PropertyManagementPageComponent },
 
-  {path: 'service-monitoring', component: ServiceMonitoringPageComponent},
+  // CORRECCIÓN AQUÍ: Se pasa el parámetro :id para no forzar hardcoding
+  { path: 'technician-inventory/:id', component: InventoryPageComponent },
+  { path: 'technician-inventory', component: InventoryPageComponent },
+
+  { path: 'requests', component: RequestPage },
+  { path: 'schedules', component: SchedulePage },
+  { path: 'services', component: ServicePage },
+  { path: 'property', component: PropertyManagementPageComponent },
+  { path: 'service-monitoring', component: ServiceMonitoringPageComponent },
+
   // Redirección por defecto
-  { path: '**', redirectTo: '', pathMatch: 'full' }, // Usamos la ruta principal cuando no haya coincidencia
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

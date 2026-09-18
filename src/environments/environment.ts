@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  serverBasePath: 'http://localhost:8091/api/v1',
+  serverBasePath: 'https://electrolink-backend-9u9l.onrender.com/api/v1',
 
   authenticationEndpoint: '/authentication',
   profilesEndpoint: '/profiles',
