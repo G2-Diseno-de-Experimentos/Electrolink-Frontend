@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ReportPhoto } from '../model/report-photo';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportPhotoService {
-  private apiUrl = 'http://localhost:8091/api/v1'; // Ajusta si tu ruta base es distinta
+  private readonly baseUrl = `${environment.serverBasePath}${environment.photoBasePath}`;
 
   constructor(private http: HttpClient) {}
 
-  // Subir nueva foto de reporte
   create(photo: Partial<ReportPhoto>): Observable<string> {
-    return this.http.post(`${this.apiUrl}/photos`, photo, { responseType: 'text' });
+    return this.http.post(this.baseUrl, photo, { responseType: 'text' });
   }
 }
