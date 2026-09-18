@@ -1,128 +1,99 @@
 import { Component, OnInit } from '@angular/core';
-import { TechnicianInventory} from '../../shared/domain/model/inventory.entity';
-import { ComponentStock } from '../../shared/domain/model/component-stock.entity';
-import { AddStockItemDto, TechnicianInventoryService, UpdateStockItemDto } from '../services/inventory.service'; // Ajusta la ruta
-import { UpdateQuantityEvent } from '../inventory-list/inventory-list.component'; // Ajusta la ruta
-// Angular Material
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { InventoryAddItemFormComponent } from '../inventory-add-item-form/inventory-add-item-form.component';
+import { ActivatedRoute } from '@angular/router';
+import { TechnicianInventory } from '../../shared/domain/model/inventory.entity';
+import { AddStockItemDto, TechnicianInventoryService, UpdateStockItemDto } from '../services/inventory.service';
 import { InventoryFormComponent } from '../inventory-form/inventory-form.component';
 import { InventoryListComponent } from '../inventory-list/inventory-list.component';
-import { distinctUntilChanged, filter, take } from 'rxjs/operators';
-import { AuthenticationService } from '../../iam/services/authentication.service';
+import { AuthenticationService } from '../../iam/services/authentication.service'; // Asegúrate de ajustar la ruta de importación
 
 @Component({
-  selector: 'app-technician-inventory-page',
+  selector: 'app-inventory-page',
+  templateUrl: './inventory-page.component.html',
+  styleUrls: ['./inventory-page.component.css'],
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     InventoryFormComponent,
-    // Angular Material modules
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTableModule,
-    MatProgressSpinnerModule,
     InventoryListComponent
-  ],
-  templateUrl: './inventory-page.component.html',
-  styleUrls: ['./inventory-page.component.css']
+  ]
 })
-export class TechnicianInventoryPageComponent implements OnInit {
-  // En una app real, este ID vendría de una ruta (ActivatedRoute) o un servicio de sesión
-  technicianId!: string;
+export class InventoryPageComponent implements OnInit {
   inventory: TechnicianInventory | null = null;
-  isLoading = false;
-  error: string | null = null;
-  route: any;
+  technicianId: string = '';
+  notFoundMessage: string = '';
+  isLoading: boolean = false;
 
   constructor(
     private inventoryService: TechnicianInventoryService,
-    private authService: AuthenticationService          // ⬅️ inyección correcta
+    private authService: AuthenticationService, // Inyección del servicio
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-  this.authService.currentUserId
-    .pipe(
-      filter(id => id > 0),           // ⬅️ ignoramos el “0” inicial
-      distinctUntilChanged()          // solo cuando realmente cambie
-    )
-    .subscribe(id => {
-      this.technicianId = String(id);
-      this.loadInventory();           // ahora sí, con token & ID correcto
-    });
-}
+    // 1. Obtiene el ID del usuario actualmente autenticado
+    const currentUserId = this.authService.getSignedInUserId();
 
-  loadInventory(): void {
+    // 2. Prioridad al usuario logueado; fallback al parámetro de la URL si no hay sesión
+    if (currentUserId > 0) {
+      this.technicianId = currentUserId.toString();
+    } else {
+      this.technicianId = this.route.snapshot.paramMap.get('id') || '';
+    }
+
+    if (this.technicianId) {
+      this.loadInventory(this.technicianId);
+    } else {
+      this.notFoundMessage = 'No se ha detectado ninguna sesión activa de técnico';
+    }
+  }
+
+  loadInventory(technicianId: string): void {
     this.isLoading = true;
-    this.error = null;
-    this.inventoryService.getInventory(this.technicianId).subscribe({
+    this.inventoryService.getInventory(technicianId).subscribe({
       next: (data) => {
-        console.log('Inventario recibido:', data);
-        this.inventory = data;
-      },
-      error: (err) => {
-        this.error = err.message;
-        console.error(err);
-      },
-      complete: () => {
         this.isLoading = false;
+        if (!data) {
+          this.notFoundMessage = 'No se encontró ningún inventario asociado a este técnico';
+          this.inventory = null;
+        } else {
+          this.inventory = data;
+          this.notFoundMessage = '';
+        }
+      },
+      error: () => {
+        this.isLoading = false;
+        this.notFoundMessage = 'Error al cargar el inventario del técnico';
       }
     });
   }
 
-  // --- Manejadores de eventos de los componentes hijos ---
-
-  onAddItem(itemDto: AddStockItemDto): void {
-    this.inventoryService.addStockItem(this.technicianId, itemDto).subscribe({
-      next: () => {
-        console.log('Ítem añadido con éxito.');
-        this.loadInventory(); // Recargamos el inventario para ver los cambios
-      },
-      error: (err) => alert(`Error al añadir ítem: ${err.message}`)
+  onAddItem(event: AddStockItemDto): void {
+    if (!this.technicianId) return;
+    this.inventoryService.addStockItem(this.technicianId, event).subscribe(() => {
+      this.loadInventory(this.technicianId);
     });
   }
 
-  onUpdateQuantity(event: UpdateQuantityEvent): void {
-    const itemToUpdate = this.inventory?.stockItems.find(i => i.componentId === event.componentId);
-    if (!itemToUpdate) return;
+  onUpdateQuantity(event: any): void {
+    if (!this.technicianId || !event) return;
 
-    const updateDto: UpdateStockItemDto = {
-      newQuantity: event.newQuantity,
-      newAlertThreshold: itemToUpdate.alertThreshold // Mantenemos el umbral existente
+    const dto: UpdateStockItemDto = {
+      newQuantity: event.newQuantity ?? event.quantity ?? 0,
+      newAlertThreshold: event.newAlertThreshold ?? event.alertThreshold ?? 0
     };
 
-    this.inventoryService.updateStockItem(this.technicianId, event.componentId, updateDto).subscribe({
-      next: () => {
-        console.log('Cantidad actualizada.');
-        this.loadInventory();
-      },
-      error: (err) => alert(`Error al actualizar cantidad: ${err.message}`)
+    const componentId = event.componentId || event.id;
+
+    this.inventoryService.updateStockItem(this.technicianId, componentId, dto).subscribe(() => {
+      this.loadInventory(this.technicianId);
     });
   }
 
   onRemoveItem(componentId: string): void {
-    if (!confirm('¿Estás seguro de que deseas eliminar este ítem?')) return;
-
-    this.inventoryService.removeStockItem(this.technicianId, componentId).subscribe({
-      next: () => {
-        console.log('Ítem eliminado.');
-        this.loadInventory();
-      },
-      error: (err) => alert(`Error al eliminar ítem: ${err.message}`)
+    if (!this.technicianId) return;
+    this.inventoryService.removeStockItem(this.technicianId, componentId).subscribe(() => {
+      this.loadInventory(this.technicianId);
     });
   }
 }

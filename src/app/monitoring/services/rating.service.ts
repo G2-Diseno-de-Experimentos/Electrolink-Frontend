@@ -2,47 +2,42 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Rating } from '../model/rating';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RatingService {
-  private apiUrl = 'http://localhost:8091/api/v1'; // Cambiar si usas otra ruta base
+  private readonly baseUrl = `${environment.serverBasePath}${environment.ratingsBasePath}`;
+  private readonly techUrl = `${environment.serverBasePath}${environment.techniciansEndpoint}`;
 
   constructor(private http: HttpClient) {}
 
-  // Obtener todas las calificaciones
   getAll(): Observable<Rating[]> {
-    return this.http.get<Rating[]>(`${this.apiUrl}/ratings`);
+    return this.http.get<Rating[]>(this.baseUrl);
   }
 
-  // Obtener por ID
   getById(ratingId: string): Observable<Rating> {
-    return this.http.get<Rating>(`${this.apiUrl}/ratings/${ratingId}`);
+    return this.http.get<Rating>(`${this.baseUrl}/${ratingId}`);
   }
 
-  // Obtener por technicianId
   getByTechnicianId(technicianId: string): Observable<Rating[]> {
-    return this.http.get<Rating[]>(`${this.apiUrl}/technicians/${technicianId}/ratings`);
+    return this.http.get<Rating[]>(`${this.techUrl}/${technicianId}${environment.ratingsBasePath}`);
   }
 
-  // Obtener por requestId
   getByRequestId(requestId: string): Observable<Rating[]> {
-    return this.http.get<Rating[]>(`${this.apiUrl}/ratings/requests/${requestId}`);
+    return this.http.get<Rating[]>(`${this.baseUrl}/requests/${requestId}`);
   }
 
-  // Crear nueva calificación
   create(rating: Partial<Rating>): Observable<string> {
-    return this.http.post(`${this.apiUrl}/ratings`, rating, { responseType: 'text' });
+    return this.http.post(this.baseUrl, rating, { responseType: 'text' });
   }
 
-  // Actualizar calificación
   update(ratingId: string, rating: Partial<Rating>): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/ratings/${ratingId}`, rating);
+    return this.http.put<void>(`${this.baseUrl}/${ratingId}`, rating);
   }
 
-  // Eliminar calificación
   delete(ratingId: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/ratings/${ratingId}`);
+    return this.http.delete<void>(`${this.baseUrl}/${ratingId}`);
   }
 }

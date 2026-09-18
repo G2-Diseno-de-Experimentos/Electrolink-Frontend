@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
-import { catchError, retry,map  } from 'rxjs/operators';
-import { environment } from '../../../environments/environment.development';
+import { Observable, throwError, of } from "rxjs";
+import { catchError, map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import { TechnicianInventory, TechnicianInventoryData } from '../../shared/domain/model/inventory.entity';
 
 export interface AddStockItemDto {
@@ -20,91 +20,72 @@ export interface UpdateStockItemDto {
   providedIn: 'root'
 })
 export class TechnicianInventoryService {
-  // La ruta base para este servicio es diferente
   private basePath = `${environment.serverBasePath}/technician-inventories`;
 
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-type': 'application/json',
+      'Content-Type': 'application/json',
     })
   };
 
   constructor(private http: HttpClient) { }
 
-  // Se extrae el manejador de errores para reutilizarlo
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      console.error(`An error occurred: ${error.error.message}`);
-    } else {
-      console.error(`Backend returned code ${error.status}, body was: ${JSON.stringify(error.error)}`);
-    }
-    return throwError(() => new Error('Something bad happened; please try again later.'));
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error(`Error de backend (${error.status}):`, error.error);
+    return throwError(() => new Error('Error al conectar con el servidor.'));
   }
 
-  /**
-   * Obtiene el inventario completo de un técnico.
-   * @param technicianId - El ID del técnico.
-   */
-  getInventory(technicianId: string): Observable<TechnicianInventory> {
+  getInventory(technicianId: string): Observable<TechnicianInventory | null> {
+    if (!technicianId) {
+      return of(null);
+    }
+
     return this.http.get<TechnicianInventoryData>(`${this.basePath}/technician/${technicianId}`, this.httpOptions)
       .pipe(
-        retry(2),
-        map(data => new TechnicianInventory(data)), // Transforma el JSON en una instancia de la clase
-        catchError(this.handleError)
+        map(data => data ? new TechnicianInventory(data) : null),
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 404) {
+            return of(null); // Retorna un Observable nulo si no se encuentra
+          }
+          return this.handleError(error);
+        })
       );
   }
 
-  /**
-   * Crea un inventario vacío para un técnico.
-   * @param technicianId - El ID del técnico.
-   */
   createInventory(technicianId: string): Observable<void> {
     return this.http.post<void>(`${this.basePath}/${technicianId}/inventory`, {}, this.httpOptions)
       .pipe(
-        retry(2),
-        catchError(this.handleError)
+        catchError((error: HttpErrorResponse) => this.handleError(error))
       );
   }
 
-  /**
-   * Añade un nuevo item al stock del inventario.
-   * @param technicianId - El ID del técnico.
-   * @param stockData - Los datos del nuevo item.
-   */
   addStockItem(technicianId: string, stockData: AddStockItemDto): Observable<void> {
     const url = `${this.basePath}/technician/${technicianId}/stocks`;
     return this.http.post<void>(url, JSON.stringify(stockData), this.httpOptions)
       .pipe(
-        catchError(this.handleError)
+        catchError((error: HttpErrorResponse) => this.handleError(error))
       );
   }
 
-  /**
-   * Actualiza un item de stock existente.
-   * @param technicianId - El ID del técnico.
-   * @param componentId - El ID del componente a actualizar.
-   * @param updateData - Los nuevos datos para el item.
-   */
-  updateStockItem(technicianId: string, componentId: string, updateData: UpdateStockItemDto): Observable<TechnicianInventory> {
+  updateStockItem(technicianId: string, componentId: string, updateData: UpdateStockItemDto): Observable<TechnicianInventory | null> {
     const url = `${this.basePath}/${technicianId}/inventory/stock-items/${componentId}`;
     return this.http.put<TechnicianInventoryData>(url, JSON.stringify(updateData), this.httpOptions)
       .pipe(
-        retry(2),
-        map(data => new TechnicianInventory(data)),
-        catchError(this.handleError)
+        map(data => data ? new TechnicianInventory(data) : null),
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 404) {
+            return of(null);
+          }
+          return this.handleError(error);
+        })
       );
   }
 
-  /**
-   * Elimina un item de stock del inventario.
-   * @param technicianId - El ID del técnico.
-   * @param componentId - El ID del componente a eliminar.
-   */
   removeStockItem(technicianId: string, componentId: string): Observable<void> {
     const url = `${this.basePath}/${technicianId}/inventory/stock-items/${componentId}`;
     return this.http.delete<void>(url, this.httpOptions)
       .pipe(
-        catchError(this.handleError)
+        catchError((error: HttpErrorResponse) => this.handleError(error))
       );
   }
 }
